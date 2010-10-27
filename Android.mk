@@ -60,12 +60,6 @@ ifneq ($(filter $(TARGET_ARCH),arm x86),)
     # little endian cpus.
     LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
 endif
-ifeq ($(TARGET_ARCH),mips)
-  # mips can be big or little-endian
-  ifneq ($(ARCH_HAS_BIGENDIAN),true)
-    LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-  endif
-endif
 
 LOCAL_MODULE := libfdlibm
 
@@ -86,13 +80,6 @@ ifeq ($(WITH_HOST_DALVIK),true)
     ifneq ($(filter $(HOST_ARCH),arm x86),)
         # See similar section above.
         LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-    endif
-    ifeq ($(HOST_ARCH),mips)
-        # mips can be big or little-endian
-        # use the output from file to decide
-	ifeq ($(findstring LSB,$(shell file -L /bin/sh)),LSB)
-            LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-	endif
     endif
 
     LOCAL_MODULE := libfdlibm-host
