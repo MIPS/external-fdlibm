@@ -64,7 +64,11 @@ cflags += "-std=c99"
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES:= $(src_files)
-LOCAL_CFLAGS := $(cflags)
+ifeq ($(TARGET_ARCH),$(filter $(TARGET_ARCH), mips mips64))
+	LOCAL_CFLAGS := $(cflags) -mno-dspr2 -mno-dsp
+else
+	LOCAL_CFLAGS := $(cflags)
+endif
 LOCAL_MODULE := libfdlibm
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
 include $(BUILD_STATIC_LIBRARY)
